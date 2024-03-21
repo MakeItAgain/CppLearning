@@ -159,6 +159,9 @@ int main() {
     ```
 
     * 排序： `sort(s.begin(),s.end());  //按ASCII码排序`
+    * string和int的相互转化，我们知道，string和int是两种不同类型的数据，如何使用函数在这两种数据之间进行转换呢。
+    string -> int，使用stoi函数`int x = stoi("1231");`
+    int -> string，使用to_string函数`string str = to_string(1234);`
     * 大小写转换（注意是单个字符）： 
     |代码|含义|
     |----|----|

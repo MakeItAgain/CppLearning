@@ -175,6 +175,8 @@ int main() {
     transform(s.begin(),s.end(),s.begin(),::tolower);//转换小写
     transform(s.begin(),s.end(),s.begin(),::toupper);//转换大写
     ```
+    * 逆序输出：
+    `str.reverse();` 
 
 
 

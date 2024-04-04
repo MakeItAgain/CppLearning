@@ -25,7 +25,7 @@ using namespace std;
 // 定义一个学生的结构体，单纯定义不开辟内存
 struct student
 {
-    int id;
+    string id;
     double scores;
 };
 //定义一个cmp函数，该函数作为 sort函数的第三个参数，告知cmp函数如何对student结构体数据进行排序
@@ -33,7 +33,12 @@ struct student
 //也就是说该函数对score进行降序排序，如果不确定是大于号还是小于号可以观察一下输出
 bool cmp(student s1, student s2)
 {
-    return s1.scores > s2.scores;   
+    // if(s1.scores > s2.scores)
+    //     return true;   
+    // else if(s1. scores == s2.scores)
+    //     return s1.id > s2.id;
+    return s1.scores > s2.scores; 
+    
 }
 
 int main()
@@ -97,3 +102,140 @@ int main()
     return 0;
 }
 ```
+
+## 明明的随机数
+* 题目链接： http://ybt.ssoier.cn:8088/problem_show.php?pid=1184
+* 题目描述： 明明想在学校中请一些同学一起做一项问卷调查，为了实验的客观性，他先用计算机生成了N个1到1000之间的随机整数（N≤100），对于其中重复的数字，只保留一个，把其余相同的数去掉，不同的数对应着不同的学生的学号。然后再把这些数从小到大排序，按照排好的顺序去找同学做调查。请你协助明明完成“去重”与“排序”的工作。
+* 输入描述： 
+有2行，第1行为1个正整数，表示所生成的随机数的个数：N；  
+第2行有N个用空格隔开的正整数，为所产生的随机数。   
+* 输出描述： 
+也是2行，第1行为1个正整数M，表示不相同的随机数的个数。第2行为M个用空格隔开的正整数，为从小到大排好序的不相同的随机数。  
+* 输入样例：   
+10  
+20 40 32 67 40 20 89 300 400 15   
+* 输出样例：   
+8    
+15 20 32 40 67 89 300 400   
+
+
+* 题目分析： 题目中有个关键信息：1到1000之间的随机整数，也就是说数字最大不会超过1000，言外之意提醒我们可以使用空间换时间的做法，不使用sort函数即可进行排序，利用桶排序的思想，对其进行排序。构建一个大小为1000初始值都为0的数组，每当输入一个数，如果没输入过也就是，则将该下标对应的数组元素值为1，如果输入过，即该下标对应的值已为1，就什么也不做。
+
+* 代码示例：
+```cpp
+#include<iostream>
+#include<vector>
+using namespace std;
+vector<int> nums(101,0);
+int main()
+{
+    int n;
+    cin >>n;
+    int m;
+    for(int i = 0; i< N;++i){
+        cin >> m;
+        if(nums[m] == 0) nums[m]++;
+    }
+    for(int i = 1;i <=100; i++)
+    {
+        if(nums[i] == 1) cout << i << ' ';
+    }
+    return 0;
+}
+```
+
+## 单词排序
+* 题目链接：http://ybt.ssoier.cn:8088/problem_show.php?pid=1185
+* 题目描述： 输入一行单词序列，相邻单词之间由1个或多个空格间隔，请按照字典序输出这些单词，要求重复的单词只输出一次。（区分大小写）
+* 输入描述： 一行单词序列，最少1个单词，最多100个单词，每个单词长度不超过50，单词之间用至少1个空格间隔。数据不含除字母、空格外的其他字符。
+* 输出描述： 按字典序输出这些单词，重复的单词只输出一次。
+* 输入样例： She  wants  to go to Peking University to study  Chinese
+* 输出样例： 
+Chinese  
+Peking  
+She  
+University  
+go  
+study  
+to  
+wants  
+* 题目解析：本题比较简单，直接使用sort函数即可，主要是想讲解一下vector和string的联合使用
+* 代码示例：
+```cpp
+#include<iostream>
+#include<vector>
+#include<string>
+#include <sstream>
+
+using namespace std;
+
+int main()
+{
+    string input; 
+    getline(cin, input); // 读取一行输入
+
+    vector<string> words; // 存储单词的容器
+    // 使用 istringstream 可以根据空格分割字符串 
+    isstringstream iss(input);
+
+    //下面的函数将字符串根据空格分开，然后存入iss，再由iss分别一次输入word中
+    string word;
+    while(iss >> word){
+        words.push_back(word);
+    }
+
+    sort(words.begin(), words.end());
+    for(int i = 0; i< words.size(); ++i)
+        cout<< words[i] << endl;
+    return 0;
+}
+
+```
+
+## 出现次数超过一半的数
+* 题目链接：http://ybt.ssoier.cn:8088/problem_show.php?pid=1186
+* 题目描述： 给出一个含有n（0 < n <= 1000）个整数的数组，请找出其中出现次数超过一半的数。数组中的数大于-50且小于50。
+* 输入描述：第一行包含一个整数n，表示数组大小；  
+
+第二行包含n个整数，分别是数组中的每个元素，相邻两个元素之间用单个空格隔开。  
+* 输出描述：  如果存在这样的数，输出这个数；否则输出no。
+* 输入样例： 
+3  
+1 2 2  
+* 输出样例：  
+2    
+* 题目分析： 依旧是使用下标作为输入对应数字的对应，每次输入一个数，就将该数字对应的下标处的值加1，最终统计有哪一个数字的出现次数大于了一半的输入  
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() 
+{
+    const int array_size = 100;
+    vector<int> counts(array_size, 0); // 初始全部为0的长度为100的数组
+
+    int n;
+    
+    cin >> n;
+
+    for (int i = 0; i < n; ++i) {
+        int input;
+        cin >> input;
+        if (input > -50 && input < 50)// 输入在范围内时才统计
+            counts[input + 50]++; // 将输入加50作为索引，统计输入个数
+    }
+
+    // 依次判断数组中的每个元素，如果个数大于一半就输出
+    for (int i = 0; i < array_size; ++i) {
+        if (counts[i] > n/2) {
+            cout << i -50;
+        }
+    }
+
+    return 0;
+}
+
+```
+ 

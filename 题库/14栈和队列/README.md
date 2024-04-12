@@ -1,5 +1,5 @@
 # 栈和队列习题
-## 选择题 1,3,5,7,12,13,16,20
+## 选择题 1,3,5,7,12,13,16,20 CDDABCBC
 1、一个栈的输入序列为：a，b，c，d，e，则栈的不可能输出的序列是（  ）。  
 A. a,b,c,d,e    
 B. d,e,c,b,a             
@@ -241,59 +241,7 @@ int main()
 
 }
 
-```
-### 表达式括号匹配(stack)
-* 题目描述：假设一个表达式有英文字母（小写）、运算符（+，—，∗，/）和左右小（圆）括号构成，以“@”作为表达式的结束符。请编写一个程序检查表达式中的左右圆括号是否匹配，若匹配，则返回“YES”；否则返回“NO”。表达式长度小于255，左圆括号少于20个。
-* 输入数据： 一行数据，即表达式。
-* 输出数据： 一行，即“YES” 或“NO”。
-* 输入样例： 2*(x+y)/(1-x)@ 
-* 输出样例： YES
-* 题目分析：本题需要用到栈
-* 示例代码：
-```cpp
-#include<iostream>
-#include<stack>
-using namespace std;
-bool valid_equation(string str);
-/*### 表达式括号匹配(stack)
-* 题目描述：假设一个表达式有英文字母（小写）、运算符（+，—，∗，/）和左右小（圆）括号构成，
-以“@”作为表达式的结束符。请编写一个程序检查表达式中的左右圆括号是否匹配
-，若匹配，则返回“YES”；否则返回“NO”。表达式长度小于255，左圆括号少于20个。
-*/
-int main()
-{
-    //我们定义一个函数，函数当表达式合法的时候返回true并且在主函数输出yes，
-    //都则返回false，然后输出no
-    string equation;
-    cin >> equation;
-    if(valid_equation(equation)) cout << "YES";
-    else cout <<"NO";
-    
-    
-    return 0;
 
-}
-bool valid_equation(string str)
-{
-    // 首先构建一个栈，栈里只放置前括号（ ，而不放置后括号 ）
-    // 当遇到一个前括号的时候就进栈，遇到一个后括号的时候先判断栈是否为空如果为空直接返回false
-    // 如果不为空则将栈中顶部元素出栈
-    // 遇到其他元素什么也不做
-    stack<char> stk;
-    int len = str.size();
-    for(int i = 0; i < len; i++)
-    {
-        if(str[i] == '(') stk.push(str[i]);
-        else if(str[i] == ')'){
-            if(stk.empty())return false;
-            else stk.pop();
-        }
-
-    }
-    return true;
-}
-
-```
 
 
 ### 周末舞会
@@ -313,23 +261,3 @@ bool valid_equation(string str)
 3  1    
 
 * 试题分析：本题甚至不需要用到队列，需要用到队列的思想
-```cpp
-#include<iostream>
-#include<stack>
-using namespace std;
-
-int main()
-{
-    int m, n,k;
-    cin >>m >>n >>k;
-    for(int i =1;i <=k ;++i)
-    {
-        int j,q;
-        j = (i%m==0)?m:i%m;
-        q = (i%n==0)?n:i%n;
-        cout << j <<' ' << q  <<endl;
-    }
-
-    return 0;
-}
-```

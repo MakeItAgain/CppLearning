@@ -187,6 +187,7 @@ B. 存储结构不同
 C. 所包含的运算个数不同             
 D. 限定插入和删除的位置不同 
 
+答案： C D D A B C B C 
 ## 编程题 
 ### 机器翻译   
 * 题目描述：
@@ -247,7 +248,52 @@ int main()
 * 输出数据： 一行，即“YES” 或“NO”。
 * 输入样例： 2*(x+y)/(1-x)@ 
 * 输出样例： YES
-* 题目分析：本题需要用到栈，
+* 题目分析：本题需要用到栈
+* 示例代码：
+```cpp
+#include<iostream>
+#include<stack>
+using namespace std;
+bool valid_equation(string str);
+/*### 表达式括号匹配(stack)
+* 题目描述：假设一个表达式有英文字母（小写）、运算符（+，—，∗，/）和左右小（圆）括号构成，
+以“@”作为表达式的结束符。请编写一个程序检查表达式中的左右圆括号是否匹配
+，若匹配，则返回“YES”；否则返回“NO”。表达式长度小于255，左圆括号少于20个。
+*/
+int main()
+{
+    //我们定义一个函数，函数当表达式合法的时候返回true并且在主函数输出yes，
+    //都则返回false，然后输出no
+    string equation;
+    cin >> equation;
+    if(valid_equation(equation)) cout << "YES";
+    else cout <<"NO";
+    
+    
+    return 0;
+
+}
+bool valid_equation(string str)
+{
+    // 首先构建一个栈，栈里只放置前括号（ ，而不放置后括号 ）
+    // 当遇到一个前括号的时候就进栈，遇到一个后括号的时候先判断栈是否为空如果为空直接返回false
+    // 如果不为空则将栈中顶部元素出栈
+    // 遇到其他元素什么也不做
+    stack<char> stk;
+    int len = str.size();
+    for(int i = 0; i < len; i++)
+    {
+        if(str[i] == '(') stk.push(str[i]);
+        else if(str[i] == ')'){
+            if(stk.empty())return false;
+            else stk.pop();
+        }
+
+    }
+    return true;
+}
+
+```
 
 
 ### 周末舞会
@@ -266,4 +312,24 @@ int main()
 2  6  
 3  1    
 
-* 试题分析：本题需要用到队列
+* 试题分析：本题甚至不需要用到队列，需要用到队列的思想
+```cpp
+#include<iostream>
+#include<stack>
+using namespace std;
+
+int main()
+{
+    int m, n,k;
+    cin >>m >>n >>k;
+    for(int i =1;i <=k ;++i)
+    {
+        int j,q;
+        j = (i%m==0)?m:i%m;
+        q = (i%n==0)?n:i%n;
+        cout << j <<' ' << q  <<endl;
+    }
+
+    return 0;
+}
+```

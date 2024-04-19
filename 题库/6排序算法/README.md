@@ -250,5 +250,42 @@ int main()
 * 输出样例：    
 3 2 7 8 1 4 9 6 10 5      
 291.90      
+```cpp
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+struct people{
+    int index;
+    int time;
+};
+bool cmp(const people & p1, const people &p2)
+{
+    if(p1.time == p2.time) return p1.index < p2.index;
+    else return p1.time < p2.time;
+}
+people queue[1000];
+int main()
+{
+    int n;
+    cin >> n;
+
+    for(int i = 1; i <=n;i++){
+        cin >> queue[i].time;
+        queue[i].index = i;
+    } 
+    sort(queue, queue+n, cmp);
+    double sum = 0;
+    for(int i = 1; i< n;++i)
+    {
+        cout << queue[i].index << ' ';
+        sum += (n-1)*queue[i].time;
+    }
+    cout << endl;
+    cout << fixed << setprecision(2) << sum/n <<endl;
+    return 0;
+}
+```
 
  

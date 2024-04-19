@@ -3,7 +3,7 @@
 * 链接：http://ybt.ssoier.cn:8088/problem_show.php?pid=1124
 * 题目描述：输入两个n行m列的矩阵A和B，输出它们的和A+B。
 * 输入：
-第一行两个整数m，n，表示矩阵的行数和列数
+第一行两个整数n，m，表示矩阵的行数和列数
 接下来n行，每行m个整数，表示矩阵A的元素。
 接下来n行，每行m个整数，表示矩阵B的元素。
 相邻两个整数之间用单个空格隔开，每个元素均在1～1000之间。
@@ -26,6 +26,7 @@
 #include<iostream>
 #include<vector>
 using namespace std;
+int M[100][100];
 
 int main()
 {
@@ -39,7 +40,24 @@ int main()
         A[i].resize(m); //将每个二维数组的行设置为m列
         B[i].resize(m);
     }
-    // 在下面下上自己的程序
+    // 在下面写上自己的程序
+    for(int i=0;i <n;++i){
+        for(int j = 0;j <m;++j) 
+            cin >> A[i][j];
+    }
+    for(int i=0;i <n;++i){
+        for(int j = 0;j <m;++j) 
+            cin >> B[i][j];
+    }
+    for(int i=0;i <n;++i){
+        for(int j = 0;j <m;++j) 
+            A[i][j] += B[i][j];
+    }
+    for(int i=0;i <n;++i){
+        for(int j = 0;j <m;++j) 
+            cout <<A[i][j] <<' ';
+        cout << endl;
+    }
     return 0;
 }
 ```

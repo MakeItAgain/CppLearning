@@ -275,14 +275,14 @@ int main()
         cin >> queue[i].time;
         queue[i].index = i;
     } 
-    sort(queue, queue+n, cmp);
+    sort(queue+1, queue+n+1, cmp);
     double sum = 0;
     for(int i = 1; i< n;++i)
     {
         cout << queue[i].index << ' ';
         sum += (n-1)*queue[i].time;
     }
-    cout << endl;
+    cout << queue[n].index<<endl;
     cout << fixed << setprecision(2) << sum/n <<endl;
     return 0;
 }

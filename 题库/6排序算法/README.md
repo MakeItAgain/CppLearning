@@ -288,4 +288,76 @@ int main()
 }
 ```
 
- 
+## 病人排队
+* 题目链接：http://ybt.ssoier.cn:8088/problem_show.php?pid=1183
+* 题目描述：
+病人登记看病，编写一个程序，将登记的病人按照以下原则排出看病的先后顺序：   
+1. 老年人（年龄 ≥60岁）比非老年人优先看病。   
+2. 老年人按年龄从大到小的顺序看病，年龄相同的按登记的先后顺序排序。   
+3. 非老年人按登记的先后顺序看病。   
+* 数据输入：第1行，输入一个小于100的正整数，表示病人的个数；
+后面按照病人登记的先后顺序，每行输入一个病人的信息，包括：一个长度小于10的字符串表示病人的ID（每个病人的ID各不相同且只含数字和字母），一个整数表示病人的年龄，中间用单个空格隔开。  
+* 数据输出：按排好的看病顺序输出病人的ID，每行一个。
+* 输入样例：  
+5   
+021075 40  
+004003 15  
+010158 67  
+021033 75  
+102012 30  
+* 输出样例： 
+021033  
+010158  
+021075  
+004003  
+102012  
+
+```cpp
+#include<iostream>
+#include<string>
+#include<vector>
+#include<algorithm>
+
+using namespace std;
+struct Client
+{
+    string id;
+    int age;
+    int index;
+    /* data */
+};
+/*
+cmp函数怎么写？
+1. 返回值为bool类型
+2. 接受两个待排序数组的元素类型
+3. 函数中返回的类型应为：在a和b两个参数在什么样的情况下使得a和b在最终的数组中，a在前b在后是合理的
+*/
+bool cmp(Client c1, Client c2)  
+{
+    if(c1.age >= 60 && c2.age < 60 ) return true;
+    else if(c1.age >= 60 && c2.age >= 60) 
+    {
+        if(c1.age != c2.age) return c1.age > c2.age;
+        else return c1.index < c2.index;
+    }
+    else if(c1.age < 60 && c2.age < 60) return c1.index < c2.index;
+}
+int main()
+{
+    int n;
+    cin>>n;
+    vector<Client> clients(n);
+    for(int i = 0; i< n;i++)
+    {
+        cin >> clients[i].id >> clients[i].age;
+        clients[i].index = i;
+    }
+    sort(clients.begin(), clients.end(),cmp);
+    for (int i = 0; i < n; i++)
+    {
+        cout << clients[i].id << endl;
+    }
+    
+    return 0;
+}
+```

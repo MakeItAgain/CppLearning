@@ -191,6 +191,7 @@ int main()
 这类问题往往会给定一组待选取的数，称为candidates，要求得出特定的数字组合，目的是组成一个目标数或者得出不重复顺序的数，有时可以重复，有时不能重复。
 这类问题通常由深度优先搜索解决，也就是回溯法。往往涉及到剪枝等DFS的高级操作。
 解题步骤：先画图， 再解码。
+解题技巧：往往需要used数组和begin变量用来去重和剪枝。
 对应的Leetcode习题：46，47，39，40，77，78，90，60，93
 1. 全排列（leetcode46）
 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。   
@@ -216,7 +217,92 @@ int main()
 1   
 * 输出样例3：
 1  
+* 分析过程：
+![](./images/leetcode46.jpg)
 
+* 示例代码：
+```cpp
+#include<iostream>
+#include<vector> 
+using namespace std;
+
+vector<vector<int> > permute(vector<int>& nums) {
+    int len = nums.size();
+    //返回值res
+    vector<vector<int> > res;
+    if (len == 0) return res;
+    //状态数组used,记录的是当前元素有无被使用过,防止多次使用,使用引用传递
+    vector<bool> used(len);
+    //工作数组path,当前处理元素未被使用,则添加到末尾,dfs返回时,删除末尾元素
+    vector<int> path;
+    dfs(nums, len, 0, path, res, used);
+    return res;
+}
+
+void dfs(vector<int>& nums, int len, int depth, vector<int>& path, vector<vector<int> >& res, vector<bool>& used) {
+    //叶子节点的处理情况,base情形(递归方法都有) 
+    if (depth == len) {
+        //C++可以直接push_back(path);
+        res.push_back(path);
+        return;
+
+    }
+    //遍历
+    for (int i = 0; i < len; ++i) {
+        //查看该元素是否使用过
+        if (!used[i]) {
+            // 如果没有使用过，则标记为使用过,两个语句包裹着dfs
+            used[i] = true;
+            path.push_back(nums[i]);
+            dfs(nums, len, depth + 1, path, res, used);
+            //回溯
+            used[i] = false;
+            path.pop_back();
+        }
+    }
+}
+int main()
+{
+    int m;
+    cin >> m;
+    vector<int> nums(m);
+    vector<vector<int> > res = permute(nums);
+    for (int i = 0; i < res.size(); i++)
+    {
+        for(int j = 0;j <res[i].size(); ++j)
+        {
+            cout << res[i][j] << ' ';
+        }
+        cout << endl;
+    }
+    
+    return 0; 
+}
+```
+2. 全排列II（leetcode 47）
+给定一个可包含重复数字的序列 nums ，按任意顺序 返回所有不重复的全排列。
+
+* 输入样例1:
+3  
+1 1 2   
+* 输出样例1：
+1 1 2  
+1 2 1  
+2 1 1    
+* 输入样例2：
+3  
+1 2 3  
+* 输出样例2:
+1 2 3   
+1 3 2   
+2 1 3   
+2 3 1   
+3 1 2   
+3 2 1   
+
+```cpp
+
+```
 
 2. 组合总和（leetcode 39 https://leetcode.cn/problems/combination-sum/description/）
 给你一个 无重复元素 的整数数组 candidates 和一个目标整数 target ，找出 candidates 中可以使数字和为目标数 target 的 所有 不同组合 ，并以列表形式返回。你可以按 任意顺序 返回这些组合。  

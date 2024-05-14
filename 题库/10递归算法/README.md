@@ -27,13 +27,24 @@ int main()
     return 0;
 }
 ```
-
+## Pell 函数
+Pell数列a1,a2,a3,...的定义是这样的，a1=1,a2=2,...,an=2an−1+an−2(n>2)。   
+给出一个正整数 k，要求Pell数列的第 k项模上 32767是多少。
 ```cpp
+#include<iostream>
+using namespace std;
 
+int pell(int n)
+{
+    if(n <=2) return n;
+    return 2 * pell(n-1) + pell(n-2);
+}
 
 int main()
 {
-    cout << fab(5);
-    return 0;
+    int n;
+    cin >> n;
+    cout  << pell(n);  
 }
+
 ```

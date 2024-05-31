@@ -1,31 +1,58 @@
 #include <iostream>
-using namespace std;
-int dfs(int n, int k, int divisions, int sum, int start)
-{
-    int ans = 0;
-    // 如果划分次数到了目标值的话
-    if(divisions == k)
-    {
-        //如果总和到目标值，则这次划分是正确的，直接返回1 
-        if(sum == n) return 1;
-        //如果划分次数到了但是总和不够或者超了，这次划分无效所以返回0
-        else return 0;
-    }
-    // 对于不同的start，开始一次划分，并且sum加上i，划分次数加1
-    for(int i = start; i <= n; ++i)
-        ans += dfs(n, k, divisions + 1, sum + i, i);
-    return ans;
+#include <vector>
 
+using namespace std;
+
+// 从当前位置到右下角需要多少步
+int dfs(vector<vector<int> >& maze, int r, int c, int m, int n) {
+    if (r == m - 1 && c == n - 1) return 0; // 已经到达右下角位置，步数为0
+
+    maze[r][c] = 1; // 标记当前位置为已访问
+
+    int dx[4] = {1, 0, -1, 0}; // 四个方向的行偏移量
+    int dy[4] = {0, -1, 0, 1}; //四个方向的列偏移量
+    int tx, ty;
+    int min_steps = -1; // 初始化最小步数为-1
+
+    for(int i =0; i< 4;++i){  //探索四个方向
+        int nr = r + dx[i];
+        int nc = c + dy[i];
+        if (nr >= 0 && nr < m && nc >= 0 && nc < n && maze[nr][nc] == 0) {
+            int steps = dfs(maze, nr, nc, m, n); // 递归调用DFS
+            if (steps >= 0 && (min_steps == -1 || steps < min_steps)) {
+                min_steps = steps; // 更新最小步数
+            }
+        }
+    }
+
+    maze[r][c] = 0; // 恢复当前位置为未访问状态
+    if (min_steps == -1) return -1; // 如果所有方向都无法到达右下角，则返回-1
+    return min_steps + 1; // 返回最小步数加上当前步数1
 }
-int num_division(int n, int k)
-{
-    return dfs(n, k, 0, 0, 1);
+
+int shortestPathInMaze(vector<vector<int> >& maze) {
+    int m = maze.size();
+    if (m == 0) return -1;
+    int n = maze[0].size();
+    return dfs(maze, 0, 0, m, n); // 从左上角位置开始深度优先搜索
 }
-int main()
-{
-    int n, k;
-    cin >> n >> k;
-    int ans = 0;
-    for (int i = 1; i <= k;++i) ans += num_division(n,i);
-    cout << ans;
+
+int main() {
+    int m, n;
+    cin >> m >> n;
+    vector<vector<int> > maze(m, vector<int>(n));
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < n; ++j) {
+            cin >> maze[i][j];
+        }
+    }
+    int shortest_path_length = shortestPathInMaze(maze);
+    cout << shortest_path_length << endl;
+    return 0;
 }
+/*
+1 0 0 1
+0 1 0 1
+
+
+*/

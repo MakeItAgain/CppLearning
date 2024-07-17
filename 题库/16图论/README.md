@@ -128,4 +128,6 @@ int main()
 
 
 例题：
+![alt text](image-3.png) 
+
 ## 泛洪填充

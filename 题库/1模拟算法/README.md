@@ -165,3 +165,73 @@ int main()
 ## 1079计算分数加减表达式的值
 1. 
 
+
+## 1087 级数求和
+1. 题目描述：
+![alt text](image-1.png)
+2. 解答：
+```cpp
+#include<iostream>
+using namespace std;
+int main()
+{   int k;
+    cin>>k;
+    double Sn=0;
+    int i=0;
+    while(Sn<=k)
+        {i++;
+		Sn+=1.0/i;                    //注意double型中1.0和1的区别
+	}
+	cout<<i<<endl;
+    return 0;
+}
+```
+
+## 1064 金牌计数
+1. 题目描述：2008年北京奥运会，A国的运动员参与了n天的决赛项目(1≤n≤17)。现在要统计一下A国所获得的金、银、铜牌数目及总奖牌数。输入第1行是A国参与决赛项目的天数n，其后n行，每一行是该国某一天获得的金、银、铜牌数目。输出4个整数，为A国所获得的金、银、铜牌总数及总奖牌数。
+2. 输入描述：输入n＋1行，第1行是A国参与决赛项目的天数n，其后n行，每一行是该国某一天获得的金、银、铜牌数目，以一个空格分开。
+3. 输出描述：输出1行，包括4个整数，为A国所获得的金、银、铜牌总数及总奖牌数，以一个空格分开。
+```cpp
+#include<iostream>
+using namespace std;
+ 
+int main()
+{
+    int n; cin >> n;
+    int goldSum = 0, silverSum = 0, copperSum = 0;//三个金牌总数
+    int gold, silver, copper;//某一天得到的奖牌数
+ 
+    for (int i = 0; i < n; ++i)
+    {
+        cin >> gold >> silver >> copper;
+        goldSum += gold;
+        silverSum += silver;
+        copperSum += copper;
+    }
+    cout << goldSum << " " << silverSum << " " << copperSum << " " << goldSum + silverSum + copperSum;
+}
+```
+
+## 2029水仙花数
+1. 若三位数中的个位十位百位的立方加起来等于它本身的话，那么这个数叫做水仙花数。请求出100～999中间的水仙花数。
+2. 
+```cpp
+#include<iostream>
+using namespace std;
+
+int main()
+{
+   int a,b,c;
+   for(int i=100;i<=999;i++)
+   {
+	   a=i/100;
+	   b=i/10%10;
+	   c=i%10;
+	   if(a*a*a+b*b*b+c*c*c==i)
+		   cout<<i<<endl;
+   }   
+   return 0;
+}
+```
+
+## 

@@ -178,5 +178,6 @@ int main() {
     * 逆序输出：
     `str.reverse();` 
 
-
-
+6.成员函数
+std::string::substr    
+`string substr (size_t pos = 0, size_t len = npos) const;`

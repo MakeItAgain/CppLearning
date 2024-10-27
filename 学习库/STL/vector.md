@@ -50,7 +50,7 @@ vector（向量）: 是一种序列式容器，事实上和数组差不多，但
 * 二维初始化：
 ```CPP
 //初始化二维均可变长数组
-vector<vector<int>> v;//定义一个行和列均可变的二维数组
+vector<vector<int> > v;//定义一个行和列均可变的二维数组
 
 vector<int> t1{1, 2, 3, 4};
 vector<int> t2{2, 3, 4, 5};
@@ -117,3 +117,9 @@ c指定为数组名称，含义中会注明算法复杂度。
         cout << *it << " ";
     //vi.end()指向尾元素地址的下一个地址
   
+
+
+```cpp
+vector<vector<int> > dp(n+1);
+    for(int i = 1; i<= n;++i) dp[i].resize(n+1);
+```

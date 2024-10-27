@@ -69,7 +69,7 @@ void climbStairsII()
 void triangleOfNums()
 {
     int N = 1000;
-    vector<vector<int>> dp(N+1), a(N+1);//dp和a都是二维数组
+    vector<vector<int> > dp(N+1), a(N+1);//dp和a都是二维数组
     for (int i = 0; i<=N; i++) {
         dp[i].resize(N+1); // 将dp[i]这个一维数组长度变成N+1
         a[i].resize(N+1);
@@ -94,12 +94,12 @@ void triangleOfNums()
     cout << ans;
 }
 
-//最长上升自序列
+//最长上升子序列 http://ybt.ssoier.cn:8088/problem_show.php?pid=1281
 /*
 给定一个整数数组nums，找出其中最长严格递增子序列的长度。
 子序列是由数组派生而来的序列，删除或不删除数组中的元素而不改变其余元素的顺序。 例如，3，6，2，7 是数组 0，3，1，6，2，2，7的子序列
  
- 构建一个dp数组，其中每个元素表示以当前元素为最后一个元素的时候，最长上升子序列的长度。
+ 构建一个dp数组，其中每个元素表示：以当前元素为最后一个元素的时候，最长上升子序列的长度。
  于是对于每一个i（0，n-1）对于每一个j（0，i-1）如果nums[j] < nums[i]那么dp[i] = max(dp[i], dp[j]+1)
 */
 
@@ -107,12 +107,224 @@ int lengthOfLIS()
 {
     int n,x;
     cin >> n;
-    vector<int>nums;
-    for (int i = 0; i < n; i++) {
+    if (n==0||n==1) return n;
+    vector<int>nums(n+1);
+    for (int i = 1; i <= n; i++)
+    {
         cin >>x;
-        nums.push_back(x);
+        nums[i] = x;
     }
+    vector<int> dp(n+1, 1);
+    int maxLength = 1;
+    for (int i= 1; i <= n;i++)
+    {
+        for (int j = 1; j<i; ++j)
+            if(nums[j] < nums[i] && dp[j] +1 <dp[i] )   dp[i] = max(dp[i], dp[j]+1);
+        
+        maxLength = max(maxLength, dp[i]);
+    }
+    return maxLength;
+}
+/*
+求最长不下降序列 http://ybt.ssoier.cn:8088/problem_show.php?pid=1259
+
+给定一个整数数组nums，找出其中最长不下降子序列的长度以及输出这个序列（不唯一输出一个就好）。
+子序列是由数组派生而来的序列，删除或不删除数组中的元素而不改变其余元素的顺序。 例如，3，6，2，7 是数组 0，3，1，6，2，2，7的子序列
+ 
+构建一个dp数组，其中每个元素表示：以当前元素为最后一个元素的时候，最长不下降子序列的长度。
+于是对于每一个i（0，n-1）对于每一个j（0，i-1）如果nums[j] <= nums[i]那么dp[i] = max(dp[i], dp[j]+1)
+输入： 第一行为n,第二行为用空格隔开的n个整数。
+输出：第一行为输出最大个数max(形式见样例)；  第二行为max个整数形成的不下降序列,答案可能不唯一，输出一种就可以了，本题进行特殊评测。
+
+例如：
+输入：
+14
+13 7 9 16 38 24 37 18 44 19 21 22 63 15
+输出：
+max=8
+7 9 16 18 19 21 22 63
+ 
+ 
+解题思路：需要构造一个二维数组，用来记录以当前元素为最后一个元素的时候，上一个元素是什么。
+
+*/
+void lengthOfLNDS()
+{
+    int n,x;
+    cin >> n;
+    if (n==0)   //处理特殊情况
+    {
+        cout << "max=" << n;
+    }
+    vector<int>nums(n+1);
+    //构造输入
+    for (int i = 1; i <= n; i++) {
+        cin >>x;
+        nums[i] = x;
+    }
+    //构造二维矩阵
+    vector<vector<int> > dp(n+1);
+    for (int i = 1; i <= n; i++) 
+    {
+        dp[i].push_back(1);
+        dp[i].push_back(0);
+    }
+    int maxLength = 1, end = 0;
+    for (int i= 1; i <= n;i++)
+    {
+        for (int j = 1; j<i; ++j)
+        {
+            if(nums[j] <= nums[i])  
+            {
+                // 改变最大值的同时，记录上一个元素的下标
+                dp[i][0] = max(dp[i][0], dp[j][0]+1);
+                dp[i][1] = j;
+            }
+        }
+        // 记录最大length以及末尾的位置
+        if (dp[i][0] > maxLength) {
+            maxLength = dp[i][0];
+            end = i;
+        }
+
+
+    }
+    //构造一个下标数组，因为我们是逆序输入所以应该逆序输出
+    vector<int> indexList;
+    while(end != 0)
+    {
+        indexList.push_back(end);
+        end = dp[end][1];
+    }
+    cout << "max=" << maxLength <<endl ;
+    for (int i=int(indexList.size())-1; i>=0; --i) {
+        cout << nums[indexList[i]] << ' ';
+    }
+
+}
+
+/*
+ 最大上升子序列和 http://ybt.ssoier.cn:8088/problem_show.php?pid=1285
+
+给定一个整数数组nums，找出其中最长上升子序列的和。
+子序列是由数组派生而来的序列，删除或不删除数组中的元素而不改变其余元素的顺序。 例如，3，6，2，7 是数组 0，3，1，6，2，2，7的子序列
+ 
+构建一个dp数组，其中每个元素表示：以当前元素为最后一个元素的时候，最长不下降子序列的长度。
+于是对于每一个i（0，n-1）对于每一个j（0，i-1）如果nums[j] <= nums[i]那么dp[i] = max(dp[i], dp[j]+1)
+输入： 第一行为n,第二行为用空格隔开的n个整数。
+输出：第一行为输出最大个数max(形式见样例)；  第二行为max个整数形成的不下降序列,答案可能不唯一，输出一种就可以了，本题进行特殊评测。
+
+例如：
+输入：
+14
+13 7 9 16 38 24 37 18 44 19 21 22 63 15
+输出：
+max=8
+7 9 16 18 19 21 22 63
+ 
+ 
+解题思路：需要构造一个二维数组，用来记录以当前元素为最后一个元素的时候，上一个元素是什么。
+
+*/
+void sumOfLIS()
+{
+    int n,x;
+    cin >> n;
+    if (n==0)   //处理特殊情况
+    {
+        cout << "max=" << n;
+    }
+    vector<int>nums(n+1);
+    //构造输入
+    for (int i = 1; i <= n; i++) {
+        cin >>x;
+        nums[i] = x;
+    }
+    //构造二维矩阵
+    vector<vector<int> > dp(n+1);
+    for (int i = 1; i <= n; i++)
+    {
+        dp[i].push_back(1);
+        dp[i].push_back(nums[i]);
+    }
+    int maxLength = 1;
+    for (int i= 1; i <= n;i++)
+    {
+        int maxIndex = 0;
+        int currentMaxLength = 1;
+        for (int j = 1; j<i; ++j)
+        {
+            if(dp[j][0] > currentMaxLength)
+            {
+                currentMaxLength = dp[j][0];
+                maxIndex = j;
+            }
+//            if(nums[j] <= nums[i])
+//            {
+//                // 改变最大值的同时，记录上一个元素的下标
+//                maxIndex =
+//                dp[i][0] = max(dp[i][0], dp[j][0]+1);
+//                dp[i][1] = j;
+//            }
+        }
+        dp[i][1] += dp[maxLength][1];
+        // 记录最大length以及末尾的位置
+//        if (dp[i][0] > maxLength) {
+//            maxLength = dp[i][0];
+//            end = i;
+//        }
+
+
+    }
+    //构造一个下标数组，因为我们是逆序输入所以应该逆序输出
+//    vector<int> indexList;
+//    while(end != 0)
+//    {
+//        indexList.push_back(end);
+//        end = dp[end][1];
+//    }
+//    cout << "max=" << maxLength <<endl ;
+//    for (int i=int(indexList.size())-1; i>=0; --i) {
+//        cout << nums[indexList[i]] << ' ';
+//    }
+    int ans = 0;
+    for (int i =1; i <= n; ++i) {
+        if(maxLength < dp[i][0])
+        {
+            ans = dp[i][1];
+            maxLength = dp[i][0];
+        }
+    }
+    cout << ans;
+
+}
+
+/*
+ 登山 http://ybt.ssoier.cn:8088/problem_show.php?pid=1283
+ 
+五一到了，ACM队组织大家去登山观光，队员们发现山上一共有N个景点，并且决定按照顺序来浏览这些景点，即每次所浏览景点的编号都要大于前一个浏览景点的编号。同时队员们还有另一个登山习惯，就是不连续浏览海拔相同的两个景点，并且一旦开始下山，就不再向上走了。队员们希望在满足上面条件的同时，尽可能多的浏览景点，你能帮他们找出最多可能浏览的景点数么？
+ 
+ 输入：
+ 第一行：N (2 <= N <= 1000) 景点数;
+
+ 第二行：N个整数，每个景点的海拔。
+ 
+ 输出：
+ 最多能浏览的景点数。
+ 
+ 8
+ 186 186 150 200 160 130 197 220
+ */
+int climbMountains()
+{
+    int n,x;
+    cin >> n;
     if (n==0) return 0;
+    vector<int>nums(n+1);
+    for (int i = 1; i <= n; i++) {
+        cin >> x;
+        nums[i] = x;
+    }
     vector<int> dp(n, 1);
     int maxLength = 1;
     for (int i= 1; i < n;i++)
@@ -142,3 +354,40 @@ int lengthOfLIS()
 4.边界条件： 所有单字符子串都是回文，所以dp[i][i]=true
 5.找到最长的 dp[i][j]=true， 记录其长度和起始索引时间复杂度为 O（n2）。
 */
+
+void longestPalindrome(string s)
+{
+    
+    int n = int(s.length());
+    
+    vector<vector<bool> >dp(n);
+    for(auto d:dp) d.resize(n);
+    
+    //初始化
+    for (int i = 0; i<n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            dp[i][j] = false;
+        }
+    }
+    int start = 0, maxLength = 1;
+    for (int i =0 ; i< n; ++i) {
+        dp[i][i] = true;
+    }
+    for (int len = 2; len <= n; ++len) { //从小区间开始逐渐扩大
+        for (int i = 0; i<= n-len; ++i) { //起始点的位置不能越界，因为要构建len的字符串
+            int j = i +len -1;
+            if (s[i] == s[j]) {
+                if(len < 3 )dp[i][j] =true;
+                else dp[i][j] = dp[i+1][j-1];
+            }
+            if(dp[i][j] && len > maxLength)
+            {
+                start = i;
+                maxLength = len;
+            }
+        }
+    }
+    cout << s.substr(start, maxLength);
+}
+
+

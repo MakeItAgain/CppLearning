@@ -234,4 +234,21 @@ int main()
 }
 ```
 
-## 
+## 回文数和完全平方数
+写两个函数，要求判断是否是回文数还是完全平方数
+```cpp
+bool is_pal(int x) { // 回文数
+    int x_copy = x;
+    int sum = 0;
+    while(x != 0) {
+        sum *= 10;
+        sum += x % 10;
+        x /= 10;
+    }
+    return sum == x_copy;
+}
+bool is_ps(int x) {// 完全平方数
+    int root = sqrt(x);
+    return root * root == x;
+}
+```

@@ -18,4 +18,6 @@ int lengthOfLIS();
 void lengthOfLNDS(); //最长不下降序列
 void sumOfLIS();
 int climbMountains();
+void stockTrading();
+
 #endif

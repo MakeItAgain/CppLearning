@@ -1,4 +1,4 @@
-//
+
 //  main.cpp
 //  StarWorkshop
 //
@@ -8,29 +8,54 @@
 #include"intermediate/intermediate.h"
 #include <iostream>
 #include "algorithms/dp.h"
-
+#include <vector>
+#include <string>
+#include <iomanip>
+#include <algorithm>
+#include<cmath>
 using namespace std;
-//const double PI = 3.1415926;
 
-int main(int argc, const char * argv[]) {
 
-    cout << lengthOfLIS();
+bool isPrime(int x) {
+    if(x <= 1) return false;
+    for(int i = 2; i <= sqrt(x); i++) {
+        if(x % i == 0) return false; // 出现一个数可以被x整除，直接return
+    }
+    return true;// 没有一个数可以被x整除
+}
+
+bool is_pal(int x) { // 回文数
+    int x_copy = x;
+    int sum = 0;
+    while(x != 0) {
+        sum *= 10;
+        sum += x % 10;
+        x /= 10;
+    }
+    return sum == x_copy;
+}
+bool is_ps(int x) {// 完全平方数
+    int root = sqrt(x);
+    return root * root == x;
+}
+// 1.3 用函数写一个冒泡排序
+// 桶排序，前提是：数据有明显的范围，用数字作为下标，优点是效率高，快
+// 排序库函数，头文件algorithm，原型sort(a+m,a+n)，cmp 函数如何写？ 当满足什么条件的时候第一个参数在第二个参数之前，头尾之间的范围限定在哪里。
+// 字符变量与字符常量
+// 输出字母，for循环怎么写，可以直接使用char类型作为循环变量的初始化，大小写转换
+// 字符数组和字符串的区别？
+int main() {
+
+    int n;
+    cin >> n;
+    int num;
+    for (int i = 0; i < n; i++)  cin >> arr[i];
+
+    bucketSort(arr, n , 0, 100);
+
     return 0;
 }
 
-// 一维vector初始化
-// vector<int> nums(n,0); vector<int> nums(n);
-// 针对复杂变量名称的命名规则：正方体的体积 cube, volume,
-// 驼峰命名法：volumeOfCube
-// 下划线命名法：volume_of_cube;
-/*
+
  
  
- 
- 14
- i    1  2 3 4   5 6  7  8  9  10  11 12 13 14
- nums 13 7 9 16 38 24 37 18 44 19 21 22 63 15
- dp   1  1 2 3  4  4  5  4  5  5  6  7  8  3
- 
- 
- */
